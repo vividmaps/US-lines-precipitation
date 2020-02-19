@@ -136,6 +136,13 @@ body {
   width: 100%;
 }
 
+#footert {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+}
+
+
 #popupbody table caption {
   background-color: gray;
   color: white;

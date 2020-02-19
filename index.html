@@ -8,9 +8,7 @@
 <script src="./threejs/three.min.js"></script>
 <script src="./threejs/OrbitControls.js"></script>
 
-<script src="./dat-gui/dat.gui.min.js"></script>
 <script src="./Qgis2threejs.js"></script>
-<script src="./dat-gui_panel.js"></script>
 </head>
 <body>
 <div id="view">
@@ -76,10 +74,9 @@
       <div id="about">
         This page was made with <a href="https://www.qgis.org/" target="_blank">QGIS</a> and <a href="https://github.com/minorua/Qgis2threejs" target="_blank">Qgis2threejs</a> plugin.
         Dependent JavaScript libraries are
-        <a href="https://threejs.org/" target="_blank">three.js</a>, 
-        <a href="https://code.google.com/p/dat-gui/" target="_blank">dat-gui</a>
+        <a href="https://threejs.org/" target="_blank">three.js</a>
         <span id="lib_proj4js"> and <a href="https://trac.osgeo.org/proj4js/" target="_blank">Proj4js</a></span>
-        . More information: <a href="https://vividmaps.com/atlas-us-lines/">www.vividmaps.com</a>
+        .
       </div>
     </div>
   </div>
@@ -90,39 +87,28 @@
 
 <!-- header and footer -->
 <div id="header"></div>
-<div id="footer"></div>
-<div id="footert">
-<a href="https://vividmaps.com/atlas-us-lines/" style="color: #707070; font-size: 12px; text-decoration: none; ">www.vividmaps.com</a>
-</div>
+<div id="footer"><span id="infobtn"><img src="./Qgis2threejs.png"></span> </div>
 
 <script>
+Q3D.Config.allVisible = true;
 Q3D.Config.bgColor = 0x000000;
-Q3D.Config.viewpoint = {lookAt:{x:-31.451203197163373,y:-5.783129142559965e-16,z:-3.3097853118563023},pos:{x:25.40794841282682,y:9.46122784725631,z:27.839810587178686}};
+Q3D.Config.viewpoint = {lookAt:{x:0.0,y:0.0,z:0.0},pos:{x:18.60028483573577,y:41.78745062159876,z:51.61759467161942}};
 if (typeof proj4 === "undefined") document.getElementById("lib_proj4js").style.display = "none";
 
 var app = Q3D.application,
     container = document.getElementById("view");
 
-app.init(container);      // initialize application
-
-// when all relevant files have been loaded into the scene
-app.addEventListener("sceneLoaded", function () {
-  // set custom plane z range
-  var box = new THREE.Box3().setFromObject(app.scene),
-      zMin = app.scene.toMapCoordinates(0, 0, box.min.y).z,
-      zMax = app.scene.toMapCoordinates(0, 0, box.max.y).z;
-  Q3D.gui.initCustomPlaneFolder(zMin, zMax);
-});
+app.init(container);           // initialize application
 
 // load the scene
 app.loadSceneFile("./data/index/scene.json", function () {
   app.start();
 
-  Q3D.gui.init();   // initialize dat-gui panel
-
   // North arrow inset
   if (Q3D.Config.northArrow.visible) app.buildNorthArrow(document.getElementById("northarrow"), app.scene.userData.rotation);
 });
+
+document.getElementById("infobtn").onclick = app.showInfo.bind(app);
 </script>
 </body>
 </html>
